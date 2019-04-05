@@ -54,16 +54,7 @@ public class GameController implements Initializable{
 	@FXML
 	private void handleKeyPress(KeyEvent evnt)
 	{
-		KeyCode code = evnt.getCode();
-		int x = code == KeyCode.A ? -1 : code == KeyCode.D ? 1 : 0;
-		int y = code == KeyCode.S ? 1 : code == KeyCode.W ? -1 : 0;
 		
-		inputVector.setX(x * movementMultiplier);
-		inputVector.setY(y * movementMultiplier);
-		
-		Utils.Log("Attempting to move the entity, x = " + inputVector.getX() + " y = " + inputVector.getY());
-		
-		e.move(inputVector);
 	}
 
 	@Override
@@ -73,7 +64,5 @@ public class GameController implements Initializable{
 	}
 	
 			
-		
-	}
 	
 }

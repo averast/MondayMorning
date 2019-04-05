@@ -89,6 +89,22 @@ public class Entity extends Canvas {
 		view.setX(pos.getX());
 		view.setY(pos.getY());
 		
+	}
+	
+	public void move(int dx, int dy)
+	{
+		int x  = pos.getX();
+		int y = pos.getY();
+		pos.setX(x + dx);
+		pos.setY(y + dy);
+		
+		//need to update the hitbox
+		hitbox.setX(pos.getX());
+		hitbox.setY(pos.getY());
+		
+		//should do the same for the image view until further notice
+		view.setX(pos.getX());
+		view.setY(pos.getY());
 		
 	}
 	
