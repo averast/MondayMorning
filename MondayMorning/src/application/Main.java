@@ -40,7 +40,7 @@ public class Main extends Application {
 		
 		lonk = new Entity(new Vector2(0,0));
 		
-		lonk.init("lonk.png");
+		lonk.init("dogebread.png"); //image cant be found
 		
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
