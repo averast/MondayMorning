@@ -24,6 +24,7 @@ public class Main extends Application {
 	private Stage stage;
 	Parent root;
 	Entity lonk;
+	final int movementMultiplier = 10;
 	@Override
 	public void start(Stage stage) {
 		
@@ -40,7 +41,7 @@ public class Main extends Application {
 		
 		lonk = new Entity(new Vector2(0,0));
 		
-		lonk.init("dogebread.png"); //image cant be found
+		lonk.init("lonk.png"); 
 		
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -58,9 +59,8 @@ public class Main extends Application {
 					}
 				});
 		
-		/*
-		KeyFrame inputFrame = new KeyFrame(Duration.seconds(0.017),
-				new EventHandler<KeyEvent> ()
+		
+		scene.setOnKeyPressed(new EventHandler<KeyEvent> ()
 					{
 						public void handle(KeyEvent ke)
 						{
@@ -71,11 +71,8 @@ public class Main extends Application {
 							lonk.move(x * movementMultiplier, y * movementMultiplier);
 						}
 					});
-		*/
 		
 		gameLoop.getKeyFrames().add(drawFrame);
-		//gameLoop.getKeyFrames().add(inputFrame);
-		
 		gameLoop.play();
 		
 		stage.show();
