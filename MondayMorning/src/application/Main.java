@@ -21,99 +21,47 @@ import application.controller.GameController;
 import javafx.event.*;
 
 public class Main extends Application {
-	private Stage stage;
-	Parent root;
-	Entity lonk;
-	final int movementMultiplier = 10;
+	//constants
+	final int fps = 60;
+	final int ms_delay = 1000 / fps;
+	final double second_delay = 1.0 / ms_delay; 
+	
 	@Override
 	public void start(Stage stage) {
 		
 		stage.setTitle("Monday Morning");
-		Group root = new Group();
-		Scene scene = new Scene(root);
+		World theworld = new World(stage.getWidth(), stage.getHeight());
+		theworld.init();
 		
-		stage.setScene(scene);
+		stage.setScene(theworld.getScene());
 		
 		Canvas canvas = new Canvas(800, 800);
-		root.getChildren().add(canvas);
+		theworld.getGroup().getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
-		lonk = new Entity(new Vector2(0,0));
-		
-		lonk.init("lonk.png"); 
-		
+
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
-		final long tstart = System.currentTimeMillis();
-		
-		KeyFrame drawFrame = new KeyFrame(Duration.seconds(0.017),
-				new EventHandler<ActionEvent> () 
-				{
-					public void handle(ActionEvent ae)
-					{
-						gc.clearRect(0, 0, 800, 800);
-						lonk.draw(gc);
-						
-					}
-				});
+		KeyFrame gameStep = new KeyFrame(Duration.seconds(0.017),
+			n -> {
+				theworld.update(second_delay);
+				theworld.draw(gc);
+				
+			});
 		
 		
-		scene.setOnKeyPressed(new EventHandler<KeyEvent> ()
-					{
-						public void handle(KeyEvent ke)
-						{
-							KeyCode code = ke.getCode();
-							int x = code == KeyCode.A ? -1 : code == KeyCode.D ? 1 : 0;
-							int y = code == KeyCode.S ? 1 : code == KeyCode.W ? -1 : 0;
-							
-							lonk.move(x * movementMultiplier, y * movementMultiplier);
-						}
-					});
 		
-		gameLoop.getKeyFrames().add(drawFrame);
+		gameLoop.getKeyFrames().add(gameStep);
 		gameLoop.play();
-		
 		stage.show();
-		
 		
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	public void switchScene(String fxmlPath)
-	{
-		try
-		{
-			root = FXMLLoader.load(getClass().getResource(fxmlPath));
-			stage.setScene(new Scene(root));
-			stage.show();
-		}
-		
-		catch (IOException e)
-		{
-			Utils.CriticalFailure("Failed to switch the scenes", e);
-		}
-	}
-	
+
 	
 	
 }
-
-
-/*
- * old code
- * 
- 		this.stage = stage;
-		
-		try {
-			root = FXMLLoader.load(getClass().getResource("/application/view/Title.fxml"));
-			stage.setScene(new Scene(root));
-			stage.show();
-		} catch (IOException e) {
-			Utils.CriticalFailure("Failed to set the scene", e);
-		}
- * */
